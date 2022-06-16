@@ -2,11 +2,28 @@ import './App.css';
 import React from 'react';
 import { Firebase } from './firebase/config';
 import {getFirestore,collection,getDocs,addDoc,deleteDoc, doc, setDoc } from 'firebase/firestore/lite'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 function readdata(){
-  const w=getFirestore(Firebase)
-  const u=collection(w,'products')
-  getDocs(u).then(doc=>doc.docs.forEach(r=>console.log(r.data(),r.id)))
+
+const auth = getAuth();
+createUserWithEmailAndPassword(auth, 'salman@gmail.com', '123456')
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    const w=getFirestore(Firebase)
+    const u=collection(w,'products')
+    getDocs(u).then(doc=>doc.docs.forEach(r=>console.log(r.data(),r.id)))
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
+
+
+
 }
 
 
